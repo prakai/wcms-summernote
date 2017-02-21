@@ -1,0 +1,16 @@
+a.fileItem:link, a.fileItem:visited {
+    padding: 4px 7px;
+    text-decoration: none;
+    display: inline-block;
+}
+
+a.fileItem:hover, a.fileItem:active {
+    text-decoration: none;
+    background-color: #e0efe0;
+}
+
+a.fileSelect {
+    text-decoration: none;
+    background-color: #e0efe0;
+    font-weight: bolder;
+}
