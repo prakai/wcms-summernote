@@ -9,8 +9,23 @@
  */
 defined('INC_ROOT') OR die('Direct access is not allowed.');
 
+$default_contents_path = 'files';
+
 wCMS::addListener('js', 'loadSummerNoteJS');
 wCMS::addListener('css', 'loadSummerNoteCSS');
+wCMS::addListener('settings', 'displaySummerNoteSettings');
+
+$contents_path = wCMS::getConfig('contents_path');
+if ( ! $contents_path) {
+	wCMS::setConfig('contents_path', $default_contents_path);
+	$contents_path = $default_contents_path;
+}
+$contents_path_n = trim($contents_path, "/");
+if ($contents_path != $contents_path_n) {
+	$contents_path = $contents_path_n;
+	wCMS::setConfig('contents_path', $contents_path);
+}
+$_SESSION['contents_path'] = $contents_path;
 
 function loadSummerNoteJS($args) {
 	$script = <<<'EOT'
@@ -99,6 +114,9 @@ EOT;
 }
 
 function loadSummerNoteCSS($args) {
+
+	echo $contents_path;
+
 	$script = <<<'EOT'
 
 <!--link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.css" type="text/css" media="screen" charset="utf-8"-->
@@ -107,5 +125,16 @@ function loadSummerNoteCSS($args) {
 <link rel="stylesheet" href="plugins/summernote/css/style.css" type="text/css" media="screen" charset="utf-8">
 EOT;
 	array_push($args[0], $script);
+	return $args;
+}
+
+function displaySummerNoteSettings ($args) {
+	if ( ! wCMS::$loggedIn) return $args;
+
+	$settings = '
+		<label for="contents_path" data-toggle="tooltip" data-placement="right" title="Path of uploaded files, reference to root path of CMS, eg: files">SummerNote Contents path</label>
+		<span id="contents_path" class="change editText">'.wCMS::getConfig('contents_path').'</span>
+	';
+	array_push($args, $settings);
 	return $args;
 }

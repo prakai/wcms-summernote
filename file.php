@@ -1,6 +1,6 @@
 <?php
 // SummerNote Server-side upload script
-$contents_path = 'files';
+$contents_path = isset($_SESSION['contents_path']) ? $_SESSION['contents_path']:'files';
 
 $do = isset($_POST['do']) ? $_POST['do'] : isset($_GET['do']) ? $_GET['do'] : '';
 
