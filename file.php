@@ -18,16 +18,20 @@ if ($do=='ul') {
 			} else {
 				$exts = $document_ext;
 			}
-			if (in_array($ext, $exts)) {
-				if (!file_exists("$contents_path/$type")) {
-					mkdir("$contents_path/$type", 0755, true);
+			if (filesize($_FILES["file"]["tmp_name"])<=10485760) {
+				if (in_array($ext, $exts)) {
+					if (!file_exists("$contents_path/$type")) {
+						mkdir("$contents_path/$type", 0755, true);
+					}
+					$destination = dirname(__FILE__)."/../../$contents_path/$type/$filename";
+					$location = $_FILES["file"]["tmp_name"];
+					move_uploaded_file($location, $destination);
+					echo "$contents_path/$type/$filename";
+				} else {
+					echo  $message = 'Ooops! File extension is not permit';
 				}
-				$destination = dirname(__FILE__)."/../../$contents_path/$type/$filename";
-				$location = $_FILES["file"]["tmp_name"];
-				move_uploaded_file($location, $destination);
-				echo "$contents_path/$type/$filename";
 			} else {
-				echo  $message = 'Ooops! File extension is not permit';
+				echo  $message = 'Ooops! File size is over limit';
 			}
 		} else {
 			echo  $message = 'Ooops! Your upload triggered the following error:  '.$_FILES['file']['error'];
