@@ -16,3 +16,6 @@ Adds an inline WYSIWYG (What You See Is What You Get) editor to your content edi
 - Default content folder is _CMS_ROOT_/files and changable via WonderCMS settings.
 - Image files store in _CMS_ROOT_/files/images.
 - Document files store in _CMS_ROOT_/files/docs.
+
+# Update
+* 2017-02-21 Initial version
