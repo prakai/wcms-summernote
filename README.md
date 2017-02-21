@@ -1,5 +1,5 @@
 # wcms-summernote
-Transforms all the editable content areas into SummerNote inline editor.
+This is a plugin for WonderCMS (https://www.wondercms.com). It transforms all the editable content areas into SummerNote inline editor.
 
 Adds an inline WYSIWYG (What You See Is What You Get) editor to your content editable fields. This plugin using SummerNote editor (http://summernote.org/).
 
