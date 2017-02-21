@@ -18,4 +18,5 @@ Adds an inline WYSIWYG (What You See Is What You Get) editor to your content edi
 - Document files store in _CMS_ROOT_/files/docs.
 
 # Update
-* 1.0.0 - 2017-02-21 Initial version
+* 1.0.0 - 2017-02-21
+ - Initial version
