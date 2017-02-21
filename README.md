@@ -17,7 +17,7 @@ Adds an inline WYSIWYG (What You See Is What You Get) editor to your content edi
 - Image files store in _CMS_ROOT_/files/images.
 - Image file extensions: jpg, jpeg, png, gif, and bmp.
 - Document files store in _CMS_ROOT_/files/docs.
-- Document files extensions: doc, docx, xls, xlsx, ppt, pptx, pdf, and txt.
+- Document file extensions: doc, docx, xls, xlsx, ppt, pptx, pdf, and txt.
 
 # Update
 * 1.0.0 - 2017-02-21
