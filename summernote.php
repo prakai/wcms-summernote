@@ -13,7 +13,7 @@ $default_contents_path = 'files';
 
 wCMS::addListener('js', 'loadSummerNoteJS');
 wCMS::addListener('css', 'loadSummerNoteCSS');
-wCMS::addListener('settings', 'displaySummerNoteSettings');
+//wCMS::addListener('settings', 'displaySummerNoteSettings');
 wCMS::addListener('editable', 'initialSummerNoteVariables');
 
 function initialSummerNoteVariables($contents) {
