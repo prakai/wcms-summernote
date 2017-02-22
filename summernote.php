@@ -14,18 +14,28 @@ $default_contents_path = 'files';
 wCMS::addListener('js', 'loadSummerNoteJS');
 wCMS::addListener('css', 'loadSummerNoteCSS');
 wCMS::addListener('settings', 'displaySummerNoteSettings');
+wCMS::addListener('editable', 'initialSummerNoteVariables');
 
-$contents_path = wCMS::getConfig('contents_path');
-if ( ! $contents_path) {
-	wCMS::setConfig('contents_path', $default_contents_path);
-	$contents_path = $default_contents_path;
+function initialSummerNoteVariables($contents) {
+    $content = $contents[0];
+    $subside = $contents[1];
+	
+	global $default_contents_path;
+
+	$contents_path = wCMS::getConfig('contents_path');
+	if ( ! $contents_path) {
+		wCMS::setConfig('contents_path', $default_contents_path);
+		$contents_path = $default_contents_path;
+	}
+	$contents_path_n = trim($contents_path, "/");
+	if ($contents_path != $contents_path_n) {
+		$contents_path = $contents_path_n;
+		wCMS::setConfig('contents_path', $contents_path);
+	}
+	$_SESSION['contents_path'] = $contents_path;
+
+    return array($content, $subside);
 }
-$contents_path_n = trim($contents_path, "/");
-if ($contents_path != $contents_path_n) {
-	$contents_path = $contents_path_n;
-	wCMS::setConfig('contents_path', $contents_path);
-}
-$_SESSION['contents_path'] = $contents_path;
 
 function loadSummerNoteJS($args) {
 	$script = <<<'EOT'
@@ -114,8 +124,6 @@ EOT;
 }
 
 function loadSummerNoteCSS($args) {
-
-	echo $contents_path;
 
 	$script = <<<'EOT'
 
