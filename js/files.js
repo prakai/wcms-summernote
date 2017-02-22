@@ -35,14 +35,13 @@
                 var $container = options.dialogsInBody ? $(document.body) : $editor;
 
                 var body =  '<div class="form-group row-fluid" id="filesDialog">'+
-                '<h4 id="filesType"></h4><hr />'+
                 '<div id="filesList" style="padding-left: 10px;"></div>'+
                 '<form class="form-inline" id="fileUpload">'+
-                '<div class="form-group">'+
-                    '<label for="file">Upload:&nbsp; </label><input type="file" class="form-control file" name="file" id="file" />'+
+                '<div class="form-group" style="width: 100%">'+
+                    '<label for="file">Upload:&nbsp; </label><input type="file" class="form-control file" name="file" id="file" style="width: 100%" />'+
                 '</div>'+
-                '<div id="fileUrlDiv" class="form-group">'+
-                    '<label for="fileUrl">URL: &nbsp; </label><input type="text" class="form-control" name="fileUrl" id="fileUrl" />'+
+                '<div id="fileUrlDiv" class="form-group" style="width: 100%; padding-top: 10px">'+
+                    '<label for="fileUrl">URL: &nbsp; </label><input type="text" class="form-control" name="fileUrl" id="fileUrl" style="width: 100%" />'+
                 '</div>'+
                 '</form>'+
                 '</div>';
@@ -93,8 +92,8 @@
                     ui.onDialogShown(self.$dialog, function () {
                         context.triggerEvent('dialog.shown');
 
-                        self.$dialog.find('#filesType').html(self.filetype);
-                        self.fileList(self.filetype);
+                        self.$dialog.find('.modal-title').text('Files manager:'+self.filetype);
+                        self.fileList(context, self.filetype);
 
                         $dialogBtn
                         .click(function (event) {
@@ -144,7 +143,7 @@
                 });
             };
 
-            self.fileList = function(type) {
+            self.fileList = function(context, type) {
                 data = new FormData();
                 data.append("do", 'ls');
                 data.append("type", type);
@@ -158,16 +157,30 @@
                     dataType: 'json',
                     processData: false,
                     success: function(l) {
-                        var html = '<div style="overflow-y: scroll; min-height: 140px;"><ul class="list-inline">';
-                        jQuery.each(l, function(i, f) {
-                            html = html + '<li><a class="fileItem" href="#" file="'+f.replace(/ /g,"%20")+'"><i class="glyphicon glyphicon-picture" /> ' + f + '</a></li>';
-                        });
-                        html = html + '</ul></div>';
+
+                        if (type=='images') {
+                            var html = '<div style="overflow-y: scroll; min-height: 140px;">';
+                            jQuery.each(l, function(i, f) {
+                                html = html + '<div class="fileItem" style="margin: 3px; float: left; width: 100px;" file="'+f.replace(/ /g,"%20")+'" data-toggle="tooltip" title="Click to select image"><div class="thumb" data-image="files/images/'+f.replace(/ /g,"%20")+'"><span><img class="pop" style="" src="files/images/'+f.replace(/ /g,"%20")+'" /></span></div></div>';
+                            });
+                            html = html + '</div>';
+                        } else {
+                            var html = '<div style="overflow-y: scroll; min-height: 140px;"><ul class="list-inline">';
+                            jQuery.each(l, function(i, f) {
+                                html = html + '<li><a class="fileItem" href="#" file="'+f.replace(/ /g,"%20")+'"><i class="glyphicon glyphicon-picture" /> ' + f + '</a></li>';
+                            });
+                            html = html + '</ul></div>';
+                        }
                         self.$dialog.find('#filesList').html(html);
                         self.$dialog.find('.fileItem').click(function() {
                             self.file = $(this).attr('file');
-                            self.$dialog.find('.fileSelect').removeClass('fileSelect');
-                            $(this).addClass('fileSelect');
+                            if (type=="images") {
+                                self.$dialog.find('.thumbselect').removeClass('thumbselect');
+                                $(this).addClass('thumbselect');
+                            } else {
+                                self.$dialog.find('.fileSelect').removeClass('fileSelect');
+                                $(this).addClass('fileSelect');
+                            }
                         });
                     },
                     error: function(message) {
@@ -226,7 +239,7 @@
 
         'image': function (context) {
             var ui = $.summernote.ui;
-            
+
             context.memo('button.image', function () {
                 var button = ui.button({
                     contents: '<i class="glyphicon glyphicon-picture"/>',
