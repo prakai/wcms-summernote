@@ -47,6 +47,10 @@ if ($do=='ls') {
 
 
 	$list = array();
+	if (!file_exists($dir)){
+		mkdir($dir, 0755, true);
+	}
+	
 	$dir = new DirectoryIterator($dir);
 
 	foreach ($dir as $fileinfo) {
