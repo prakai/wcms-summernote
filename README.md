@@ -13,7 +13,7 @@ Adds an inline WYSIWYG (What You See Is What You Get) editor to your content edi
 - It is an inline WYSIWYG.
 - Upload image file and insert as image into content.
 - Upload document file and insert as link into content.
-- Default content folder is _CMS_ROOT_/files and changable via WonderCMS settings.
+- Default content folder is _CMS_ROOT_/files.
 - Image files store in _CMS_ROOT_/files/images.
 - Image file extensions: jpg, jpeg, png, gif, and bmp.
 - Document files store in _CMS_ROOT_/files/docs.
