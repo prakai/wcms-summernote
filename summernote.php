@@ -1,11 +1,11 @@
 <?php
 /**
- * SummerNote plugin for WonderCMS.
+ * SummerNote plugin.
  *
  * It transforms all the editable areas into SummerNote inline editor.
  *
  * @author  Prakai Nadee <prakai@rmuti.acth>
- * @version 1.0.1
+ * @version 1.0.0
  */
 defined('INC_ROOT') OR die('Direct access is not allowed.');
 
@@ -19,26 +19,26 @@ wCMS::addListener('editable', 'initialSummerNoteVariables');
 function initialSummerNoteVariables($contents) {
     $content = $contents[0];
     $subside = $contents[1];
+	
+	global $default_contents_path;
 
-    global $default_contents_path;
-
-    $contents_path = wCMS::getConfig('contents_path');
-    if ( ! $contents_path) {
-        wCMS::setConfig('contents_path', $default_contents_path);
-        $contents_path = $default_contents_path;
-    }
-    $contents_path_n = trim($contents_path, "/");
-    if ($contents_path != $contents_path_n) {
-        $contents_path = $contents_path_n;
-        wCMS::setConfig('contents_path', $contents_path);
-    }
-    $_SESSION['contents_path'] = $contents_path;
+	$contents_path = wCMS::getConfig('contents_path');
+	if ( ! $contents_path) {
+		wCMS::setConfig('contents_path', $default_contents_path);
+		$contents_path = $default_contents_path;
+	}
+	$contents_path_n = trim($contents_path, "/");
+	if ($contents_path != $contents_path_n) {
+		$contents_path = $contents_path_n;
+		wCMS::setConfig('contents_path', $contents_path);
+	}
+	$_SESSION['contents_path'] = $contents_path;
 
     return array($content, $subside);
 }
 
 function loadSummerNoteJS($args) {
-    $script = <<<'EOT'
+	$script = <<<'EOT'
 
 <!--script src="//cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.js"></script-->
 <script src="plugins/summernote/summernote/summernote.js"></script>
@@ -53,6 +53,7 @@ $(function() {
 	var editElements = {};
 
 	$('.editable').summernote({
+
 		airMode: true,
 		popover: {
 			image: [
@@ -69,8 +70,10 @@ $(function() {
 				['color', ['color']],
 				['para', ['ul', 'ol', 'paragraph']],
 				['style', ['style']],
-				['insert', ['image', 'doc', 'link', 'video', 'hr']], // image and doc are customized button
+				['insert', ['image', 'doc', 'link', 'video', 'hr']], // doc and image is customized code
+				//['insert', ['link', 'picture', 'video', 'hr']],
 				['table', ['table']],
+				//['misc', ['fullscreen']]
 			],
 			styleTags: ['p', 'blockquote', 'pre', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
 		},
@@ -126,7 +129,7 @@ function loadSummerNoteCSS($args) {
 
 <!--link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.css" type="text/css" media="screen" charset="utf-8"-->
 <link rel="stylesheet" href="plugins/summernote/summernote/summernote.css" type="text/css" media="screen" charset="utf-8">
-<link rel="stylesheet" href="plugins/summernote/css/font-awesome.min.css" type="text/css" media="screen" charset="utf-8">
+<!--link rel="stylesheet" href="plugins/summernote/css/font-awesome.min.css" type="text/css" media="screen" charset="utf-8"-->
 <link rel="stylesheet" href="plugins/summernote/css/style.css" type="text/css" media="screen" charset="utf-8">
 EOT;
 	array_push($args[0], $script);

@@ -1,11 +1,11 @@
 <?php
-// SummerNote plugin for WonderCMS, Server-side upload script
+// SummerNote Server-side upload script
 $contents_path = isset($_SESSION['contents_path']) ? $_SESSION['contents_path']:'files';
 
 $do = isset($_POST['do']) ? $_POST['do'] : isset($_GET['do']) ? $_GET['do'] : '';
 
 $image_exts = array('jpg', 'jpeg', 'png', 'gif', 'bmp');
-$document_ext = array('txt', 'text', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'zip', 'rar', '7z', 'pdf');
+$document_ext = array('doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'pdf', 'txt');
 
 if ($do=='ul') {
 	$type = isset($_POST['type']) ? $_POST['type'] : isset($_GET['type']) ? $_GET['type'] : '';
@@ -45,24 +45,26 @@ if ($do=='ls') {
 
 	$dir = dirname(__FILE__)."/../../$contents_path/$type";
 
+
 	$list = array();
 	if (!file_exists($dir)){
 		mkdir($dir, 0755, true);
 	}
-
+	
 	$dir = new DirectoryIterator($dir);
+
 	foreach ($dir as $fileinfo) {
 	    if ($fileinfo->isFile()) {
 	        $ext = strtolower(pathinfo($fileinfo->getFilename(), PATHINFO_EXTENSION));
 			if ($type == 'images') {
 				if (in_array($ext, $image_exts)) {
-					$list[] = $fileinfo->getFilename();
+					$list[] = $fileinfo->getFilename();//array($fileinfo->getFilename()=>'f');
 				}
 			} else {
-				$list[] = $fileinfo->getFilename();
+				$list[] = $fileinfo->getFilename();//array($fileinfo->getFilename()=>'f');
 			}
 	    } else if ($fileinfo->isDir() && ! $fileinfo->isDot()) {
-			$list[] = $fileinfo->getFilename();
+			$list[] = $fileinfo->getFilename();//array($fileinfo->getFilename()=>'d');
 		}
 	}
 	echo json_encode($list);
