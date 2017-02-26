@@ -22,7 +22,7 @@ if ($do=='ul') {
 			}
 			if (filesize($_FILES["file"]["tmp_name"])<=10485760) {
 				if (in_array($ext, $exts)) {
-					$destination = dirname(__FILE__)."/../../$contents_path/$type";
+					$destination = __DIR__."/../../$contents_path/$type";
 					if (!file_exists($destination)) {
 						mkdir($destination, 0775, true);
 					}
@@ -48,7 +48,7 @@ if ($do=='ul') {
 }
 if ($do=='ls') {
 	$type = isset($_POST['type']) ? $_POST['type'] : (isset($_GET['type']) ? $_GET['type'] : '');
-	$dir = dirname(__FILE__)."/../../$contents_path/$type";
+	$dir = __DIR__."/../../$contents_path/$type";
 	$list = array();
 	if (!file_exists($dir)){
 		mkdir($dir, 0755, true);

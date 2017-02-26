@@ -41,10 +41,10 @@
                 '<div id="filesList" style="padding-left: 10px;"></div>'+
                 '<form class="form-inline" id="fileUpload" enctype="multipart/form-data">'+
                 '<div class="form-group" style="width: 100%">'+
-                    '<label for="file">Upload:&nbsp; </label><input type="file" class="form-control file" name="file" id="file" style="width: 100%" />'+
+                    '<label for="file">File of image or document to upload</label><input type="file" class="form-control file" name="file" id="file" style="width: 100%" />'+
                 '</div>'+
                 '<div id="fileUrlDiv" class="form-group" style="width: 100%; padding-top: 10px">'+
-                    '<label for="fileUrl">URL: &nbsp; </label><input type="text" class="form-control" name="fileUrl" id="fileUrl" style="width: 100%" />'+
+                    '<label for="fileUrl">URL of image or document</label><input type="text" class="form-control" name="fileUrl" id="fileUrl" style="width: 100%" />'+
                 '</div>'+
                 '</form>'+
                 '</div>';

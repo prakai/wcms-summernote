@@ -7,13 +7,22 @@
  * @author  Prakai Nadee <prakai@rmuti.acth>
  * @version 1.0.1
  */
-defined('INC_ROOT') OR die('Direct access is not allowed.');
+
+if(defined('VERSION'))
+ 	define('version', VERSION);
+if(version<'2.0.0')
+    defined('INC_ROOT') OR die('Direct access is not allowed.');
 
 $default_contents_path = 'files';
 
-wCMS::addListener('js', 'loadSummerNoteJS');
-wCMS::addListener('css', 'loadSummerNoteCSS');
-//wCMS::addListener('settings', 'displaySummerNoteSettings');
+if(version<'2.0.0') {
+    wCMS::addListener('js', 'loadSummerNoteJS');
+    wCMS::addListener('css', 'loadSummerNoteCSS');
+    //wCMS::addListener('settings', 'displaySummerNoteSettings');
+} else {
+    wCMS::addListener('onJavaScript', 'loadSummerNoteJS');
+    wCMS::addListener('onStyle', 'loadSummerNoteCSS');
+}
 wCMS::addListener('editable', 'initialSummerNoteVariables');
 
 function initialSummerNoteVariables($contents) {
@@ -51,7 +60,6 @@ $(function() {
 		$("span.editable#"+c).replaceWith(d);
 	});
 	var editElements = {};
-
 	$('.editable').summernote({
 		airMode: true,
 		popover: {
@@ -83,10 +91,12 @@ $(function() {
 				if (editElements[$(this).attr('id')]!=undefined) {
 					var id = $(this).attr('id');
 					var content = editElements[$(this).attr('id')];
+                    var target = ($(this).attr('data-target')!=undefined) ? $(this).attr('data-target'):'pages';
 					editElements[$(this).attr('id')] = undefined;
 					$.post("",{
 						fieldname: id,
-						content: content
+						content: content,
+                        target: target
 					});
 				}
 			},
@@ -113,15 +123,16 @@ $(function() {
 		},
 	});
 });
-
 </script>
 EOT;
-	array_push($args[0], $script);
+    if(version<'2.0.0')
+        array_push($args[0], $script);
+    else
+        $args[0].=$script;
 	return $args;
 }
 
 function loadSummerNoteCSS($args) {
-
 	$script = <<<'EOT'
 
 <!--link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.css" type="text/css" media="screen" charset="utf-8"-->
@@ -129,17 +140,22 @@ function loadSummerNoteCSS($args) {
 <link rel="stylesheet" href="plugins/summernote/css/font-awesome.min.css" type="text/css" media="screen" charset="utf-8">
 <link rel="stylesheet" href="plugins/summernote/css/style.css" type="text/css" media="screen" charset="utf-8">
 EOT;
-	array_push($args[0], $script);
+    if(version<'2.0.0')
+        array_push($args[0], $script);
+    else
+        $args[0].=$script;
 	return $args;
 }
 
 function displaySummerNoteSettings ($args) {
 	if ( ! wCMS::$loggedIn) return $args;
-
 	$settings = '
-		<label for="contents_path" data-toggle="tooltip" data-placement="right" title="Path of uploaded files, reference to root path of CMS, eg: files">SummerNote Contents path</label>
-		<span id="contents_path" class="change editText">'.wCMS::getConfig('contents_path').'</span>
-	';
-	array_push($args, $settings);
+
+<label for="contents_path" data-toggle="tooltip" data-placement="right" title="Path of uploaded files, reference to root path of CMS, eg: files">SummerNote Contents path</label>
+<span id="contents_path" class="change editText">'.wCMS::getConfig('contents_path').'</span>';
+    if(version<'2.0.0')
+        array_push($args[0], $script);
+    else
+        $args[0].=$script;
 	return $args;
 }
