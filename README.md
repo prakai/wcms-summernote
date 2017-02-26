@@ -20,8 +20,10 @@ Adds an inline WYSIWYG (What You See Is What You Get) editor to your content edi
 - Document file extensions: txt, text, doc, docx, xls, xlsx, ppt, pptx, pdf, zip, rar, and 7z.
 
 # Update
+* 1.1.0 - 2017-02-26
+ - Adds support both WonderCMS-1.x and WonderCMS-2.0
 * 1.0.1 - 2017-02-25
- - Add support more document extensions.
+ - Adds support more document extensions.
  - Fix image and document link insertion point.
  - Re-design document list as same as image list.
 * 1.0.0 - 2017-02-21
