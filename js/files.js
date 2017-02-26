@@ -39,7 +39,7 @@
 
                 var body =  '<div class="form-group row-fluid" id="filesDialog">'+
                 '<div id="filesList" style="padding-left: 10px;"></div>'+
-                '<form class="form-inline" id="fileUpload">'+
+                '<form class="form-inline" id="fileUpload" enctype="multipart/form-data">'+
                 '<div class="form-group" style="width: 100%">'+
                     '<label for="file">Upload:&nbsp; </label><input type="file" class="form-control file" name="file" id="file" style="width: 100%" />'+
                 '</div>'+
@@ -212,8 +212,8 @@
                 data.append("do", 'ul');
                 data.append("type", type);
                 $.ajax({
-                    type: "POST",
                     url: "plugins/summernote/file.php?do=ul&type="+type,
+                    type: "POST",
                     data: data,
                     cache: false,
                     contentType: false,
@@ -231,7 +231,7 @@
                                 context.invoke('editor.insertNode', node);
                             }
                         } else {
-                            alert(url);
+                            alert('File upload error: '+url);
                         }
                     },
                     error: function(message) {
