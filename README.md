@@ -18,6 +18,7 @@ Adds an inline WYSIWYG (What You See Is What You Get) editor to your content edi
 - Image file extensions: jpg, jpeg, png, gif, and bmp.
 - Document files store in _CMS_ROOT_/files/docs.
 - Document file extensions: txt, text, doc, docx, xls, xlsx, ppt, pptx, pdf, zip, rar, and 7z.
+- Suports both WonderCMS-1.x and WonderCMS-2.0
 
 # Update
 * 1.1.0 - 2017-02-26
