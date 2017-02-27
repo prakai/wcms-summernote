@@ -8,7 +8,7 @@
  * @version 1.0.1
  */
 
-if(defined('VERSION'))
+ if(defined('VERSION') && !defined('version'))
  	define('version', VERSION);
 if(version<'2.0.0')
     defined('INC_ROOT') OR die('Direct access is not allowed.');
@@ -16,12 +16,12 @@ if(version<'2.0.0')
 $default_contents_path = 'files';
 
 if(version<'2.0.0') {
-    wCMS::addListener('js', 'loadSummerNoteJS');
     wCMS::addListener('css', 'loadSummerNoteCSS');
+    wCMS::addListener('js', 'loadSummerNoteJS');
     //wCMS::addListener('settings', 'displaySummerNoteSettings');
 } else {
-    wCMS::addListener('onJavaScript', 'loadSummerNoteJS');
     wCMS::addListener('onStyle', 'loadSummerNoteCSS');
+    wCMS::addListener('onJavaScript', 'loadSummerNoteJS');
 }
 wCMS::addListener('editable', 'initialSummerNoteVariables');
 
