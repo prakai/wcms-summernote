@@ -5,24 +5,18 @@
  * It transforms all the editable areas into SummerNote inline editor.
  *
  * @author  Prakai Nadee <prakai@rmuti.acth>
+ * @version 1.2.0
  * @version 1.0.1
  */
 
- if(defined('VERSION') && !defined('version'))
- 	define('version', VERSION);
 if(version<'2.0.0')
     defined('INC_ROOT') OR die('Direct access is not allowed.');
 
 $default_contents_path = 'files';
 
-if(version<'2.0.0') {
-    wCMS::addListener('css', 'loadSummerNoteCSS');
-    wCMS::addListener('js', 'loadSummerNoteJS');
-    //wCMS::addListener('settings', 'displaySummerNoteSettings');
-} else {
-    wCMS::addListener('onStyle', 'loadSummerNoteCSS');
-    wCMS::addListener('onJavaScript', 'loadSummerNoteJS');
-}
+wCMS::addListener('css', 'loadSummerNoteCSS');
+wCMS::addListener('js', 'loadSummerNoteJS');
+//wCMS::addListener('settings', 'displaySummerNoteSettings');
 wCMS::addListener('editable', 'initialSummerNoteVariables');
 
 function initialSummerNoteVariables($contents) {
@@ -33,13 +27,19 @@ function initialSummerNoteVariables($contents) {
 
     $contents_path = wCMS::getConfig('contents_path');
     if ( ! $contents_path) {
-        wCMS::setConfig('contents_path', $default_contents_path);
+		if(version<'2.0.0')
+			wCMS::setConfig('contents_path', $default_contents_path);
+		else
+			wCMS::set('config','contents_path');
         $contents_path = $default_contents_path;
     }
     $contents_path_n = trim($contents_path, "/");
     if ($contents_path != $contents_path_n) {
         $contents_path = $contents_path_n;
-        wCMS::setConfig('contents_path', $contents_path);
+		if(version<'2.0.0')
+			wCMS::setConfig('contents_path', $contents_path);
+		else
+			wCMS::set('config','contents_path');
     }
     $_SESSION['contents_path'] = $contents_path;
 
@@ -53,6 +53,7 @@ function loadSummerNoteJS($args) {
 <script src="plugins/summernote/summernote/summernote.js"></script>
 <script src="plugins/summernote/js/files.js"></script>
 <script>
+
 $(function() {
 	var s=$("span.editable").clone();
 	s.each(function(a,b){
@@ -151,8 +152,12 @@ function displaySummerNoteSettings ($args) {
 	if ( ! wCMS::$loggedIn) return $args;
 	$settings = '
 
-<label for="contents_path" data-toggle="tooltip" data-placement="right" title="Path of uploaded files, reference to root path of CMS, eg: files">SummerNote Contents path</label>
-<span id="contents_path" class="change editText">'.wCMS::getConfig('contents_path').'</span>';
+<label for="contents_path" data-toggle="tooltip" data-placement="right" title="Path of uploaded files, reference to root path of CMS, eg: files">SummerNote Contents path</label>';
+	if(version<'2.0.0')
+        $settings .= '<span id="contents_path" class="change editText">'.wCMS::getConfig('contents_path').'</span>';
+    else
+        $settings .= '<span data-target="config" id="contents_path" class="change editText">'.wCMS::get('config','contents_path').'</span>';
+
     if(version<'2.0.0')
         array_push($args[0], $script);
     else
