@@ -8,9 +8,10 @@
  * @version 1.2.0
  * @version 1.0.1
  */
-
+if(defined('VERSION') && !defined('version'))
+  	define('version', VERSION);
 if(version<'2.0.0')
-    defined('INC_ROOT') OR die('Direct access is not allowed.');
+	defined('INC_ROOT') OR die('Direct access is not allowed.');
 
 $default_contents_path = 'files';
 
@@ -30,7 +31,7 @@ function initialSummerNoteVariables($contents) {
 		if(version<'2.0.0')
 			wCMS::setConfig('contents_path', $default_contents_path);
 		else
-			wCMS::set('config','contents_path');
+			wCMS::set('config','contents_path', $default_contents_path);
         $contents_path = $default_contents_path;
     }
     $contents_path_n = trim($contents_path, "/");
@@ -39,7 +40,7 @@ function initialSummerNoteVariables($contents) {
 		if(version<'2.0.0')
 			wCMS::setConfig('contents_path', $contents_path);
 		else
-			wCMS::set('config','contents_path');
+			wCMS::set('config','contents_path', $contents_path);
     }
     $_SESSION['contents_path'] = $contents_path;
 
