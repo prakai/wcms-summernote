@@ -3,6 +3,9 @@ This is a plugin for WonderCMS (https://www.wondercms.com). It transforms all th
 
 Adds an inline WYSIWYG (What You See Is What You Get) editor to your content editable fields. This plugin using SummerNote editor (http://summernote.org/).
 
+# Demo
+https://wondercms-demo.000webhostapp.com/
+
 # Download and Setup
 1. Download the ZIP file.
 2. Create folder named "summernote" in WonderCMS plugins folder.
